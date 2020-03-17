@@ -972,10 +972,7 @@ func (t *UnauthenticatedRateLimitedTransport) RoundTrip(req *http.Request) (*htt
 	req2.URL = new(url.URL)
 	*req2.URL = *req.URL
 
-	q := req2.URL.Query()
-	q.Set("client_id", t.ClientID)
-	q.Set("client_secret", t.ClientSecret)
-	req2.URL.RawQuery = q.Encode()
+	req2.SetBasicAuth(t.ClientID, t.ClientSecret)
 
 	// Make the HTTP request.
 	return t.transport().RoundTrip(req2)
